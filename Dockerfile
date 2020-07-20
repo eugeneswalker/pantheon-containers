@@ -33,7 +33,7 @@ RUN yum update -y \
     pciutils \
     iputils \
     python3-devel \
-    procps \
+    procps \ 
     && yum clean all \
     && rm -rf /var/cache/yum/*
 
