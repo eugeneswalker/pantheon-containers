@@ -1,0 +1,3 @@
+[submodule "submodules/pantheon"]
+	path = submodules/pantheon
+	url = git@github.com:pantheonscience/ECP-Examples.git
