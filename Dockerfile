@@ -2,7 +2,7 @@ ARG DATE
 ARG REPO
 ARG COMMIT
 
-FROM registry.access.redhat.com/ubi8/ubi:8.2
+FROM registry.access.redhat.com/ubi8/ubi:8.2 AS e4s_base
 
 ARG DATE
 ARG REPO
@@ -53,6 +53,21 @@ RUN git clone https://github.com/spack/spack.git --depth=1 /opt/spack \
 #RUN wget http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux.run \
 # && sh cuda_10.2.89_440.33.01_linux.run --silent --toolkit --override \
 # && rm -f cuda_10.2.89_440.33.01_linux.run
+
+FROM e4s_base AS pantheon_2020-07-22
+
+ARG DATE
+ARG REPO
+ARG COMMIT
+
+# Create a pantheon home
+RUN mkdir /home/pantheon
+
+# Make subsequent copies relative to pantheon home
+WORKDIR /home/pantheon
+
+# Copy the example we want to test from a submodule
+COPY submodules/pantheon/2020-04_Nyx-example ./
 
 COPY entrypoint.sh /entrypoint.sh
 
