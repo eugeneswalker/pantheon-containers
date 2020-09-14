@@ -54,7 +54,7 @@ RUN git clone https://github.com/spack/spack.git --depth=1 /opt/spack \
 # && sh cuda_10.2.89_440.33.01_linux.run --silent --toolkit --override \
 # && rm -f cuda_10.2.89_440.33.01_linux.run
 
-FROM e4s_base AS pantheon_2020-07-22
+FROM e4s_base AS pantheon_base
 
 ARG DATE
 ARG REPO
@@ -65,9 +65,6 @@ RUN mkdir /home/pantheon
 
 # Make subsequent copies relative to pantheon home
 WORKDIR /home/pantheon
-
-# Copy the example we want to test from a submodule
-COPY submodules/pantheon/2020-04_Nyx-example ./
 
 COPY entrypoint.sh /entrypoint.sh
 
