@@ -45,7 +45,8 @@ RUN ln -s `which python3` /usr/bin/python \
 ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
-RUN git clone https://github.com/spack/spack.git --depth=1 /opt/spack \
+RUN git clone https://github.com/spack/spack.git /opt/spack \
+ && pushd /opt/spack && git checkout 49512e2 && popd \
  && . /opt/spack/share/spack/setup-env.sh \
  && spack mirror add e4s https://cache.e4s.io/e4s \
  && spack buildcache keys --trust --install
