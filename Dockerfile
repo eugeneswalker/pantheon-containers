@@ -67,6 +67,11 @@ RUN mkdir /home/pantheon
 # Make subsequent copies relative to pantheon home
 WORKDIR /home/pantheon
 
+# Install spack environment
+COPY spack_env/nobuild.yaml spack_env/spack.yaml /home/pantheon/
+RUN . /opt/spack/share/spack/setup-env.sh \
+    && spack --env . install
+
 COPY entrypoint.sh /entrypoint.sh
 
 CMD /bin/bash
