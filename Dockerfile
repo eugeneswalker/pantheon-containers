@@ -67,18 +67,11 @@ RUN mkdir /home/pantheon
 # Make subsequent copies relative to pantheon home
 WORKDIR /home/pantheon
 
-# Yum install the simple stuff
-RUN yum update -y \
- && yum install -y \
-    cmake \
-    zlib-devel \
-    && yum clean all \
-    && rm -rf /var/cache/yum/*
-
 # Install spack environment
 COPY spack_env/nobuild.yaml spack_env/spack.yaml /home/pantheon/
 RUN . /opt/spack/share/spack/setup-env.sh \
-    && spack --env . install
+    && spack --env . concretize
+#    && spack --env . install
 
 COPY entrypoint.sh /entrypoint.sh
 
