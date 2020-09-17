@@ -13,7 +13,6 @@ spack:
         mpi: [spectrum-mpi@10.3.1]
         blas: [openblas]
         lapack: [openblas]
-      compiler: [gcc@8.3.1]
       version: []
       buildable: true
     cmake:
@@ -80,21 +79,21 @@ spack:
       buildable: true
       variants: +python3
     ascent:
-      variants: ~openmp~shared~adios~mfem+fortran+test~python+serial+mpi+cuda+vtkh
+      variants: +openmp+shared~adios~mfem+fortran+test~python+serial+mpi~cuda+vtkh
       version: []
       target: []
       compiler: []
       buildable: true
       providers: {}
     vtk-h:
-      variants: +cuda~openmp+mpi+serial cuda_arch=70
+      variants: ~cuda~openmp+mpi+serial+shared
       version: [develop]
       target: []
       compiler: []
       buildable: true
       providers: {}
     vtk-m:
-      variants: ~mpi+cuda cuda_arch=70
+      variants: ~mpi~cuda~shared
       version: []
       target: []
       compiler: []
