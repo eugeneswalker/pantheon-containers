@@ -14,6 +14,7 @@ RUN yum update -y \
     gcc \
     gcc-c++ \
     gcc-gfortran \
+    cmake \
     patch \
     xz \
     bzip2 \
@@ -48,18 +49,12 @@ ENV NVIDIA_VISIBLE_DEVICES=all \
 RUN git clone https://github.com/spack/spack.git /opt/spack \
  && pushd /opt/spack && git checkout 49512e2 && popd \
  && . /opt/spack/share/spack/setup-env.sh \
- && spack mirror add e4s https://cache.e4s.io/e4s \
+ && spack mirror add e4s https://cache.e4s.io \
  && spack buildcache keys --trust --install
 
 #RUN wget http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux.run \
 # && sh cuda_10.2.89_440.33.01_linux.run --silent --toolkit --override \
 # && rm -f cuda_10.2.89_440.33.01_linux.run
-
-FROM e4s_base AS pantheon_base
-
-ARG DATE
-ARG REPO
-ARG COMMIT
 
 # Create a pantheon home
 RUN mkdir /home/pantheon
@@ -67,19 +62,11 @@ RUN mkdir /home/pantheon
 # Make subsequent copies relative to pantheon home
 WORKDIR /home/pantheon
 
-# Yum install the simple stuff
-RUN yum update -y \
- && yum install -y \
-    cmake \
-    zlib-devel \
-    && yum clean all \
-    && rm -rf /var/cache/yum/*
-
 # Install spack environment
 COPY spack_env/nobuild.yaml spack_env/spack.yaml /home/pantheon/
-RUN . /opt/spack/share/spack/setup-env.sh \
-    && spack --env . install
-
+#RUN . /opt/spack/share/spack/setup-env.sh \
+#    && spack --env . install
+#
 COPY entrypoint.sh /entrypoint.sh
 
 CMD /bin/bash
