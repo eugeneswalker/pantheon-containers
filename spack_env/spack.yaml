@@ -10,7 +10,7 @@ spack:
     all:
       target: [power9le]
       providers:
-        mpi: [openmpi@4.0.3]
+        mpi: [mpich@3.3.2]
         blas: [openblas]
         lapack: [openblas]
       compiler: [gcc@8.3.1]
@@ -35,8 +35,8 @@ spack:
       target: []
       compiler: []
       providers: {}
-    openmpi:
-      version: [4.0.3]
+    spectrum-mpi:
+      version: [10.3.1]
       target: []
       compiler: []
       buildable: true
@@ -59,7 +59,7 @@ spack:
       buildable: true
       variants: +python3
     ascent:
-      variants: +openmp+shared~adios~mfem+fortran+test~python+serial+mpi~cuda+vtkh
+      variants: ^mpich+openmp+shared~adios~mfem+fortran+test~python+serial+mpi~cuda+vtkh
       version: []
       target: []
       compiler: []

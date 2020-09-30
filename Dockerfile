@@ -46,10 +46,7 @@ ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
 RUN git clone https://github.com/spack/spack.git /opt/spack \
- && pushd /opt/spack && git checkout 49512e2 && popd \
- && . /opt/spack/share/spack/setup-env.sh \
- && spack mirror add e4s https://cache.e4s.io/e4s \
- && spack buildcache keys --trust --install
+ && pushd /opt/spack && git checkout 49512e2 && popd 
 
 #RUN wget http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux.run \
 # && sh cuda_10.2.89_440.33.01_linux.run --silent --toolkit --override \
@@ -70,8 +67,10 @@ WORKDIR /home/pantheon
 # Install spack environment
 COPY spack_env/nobuild.yaml spack_env/spack.yaml /home/pantheon/
 RUN . /opt/spack/share/spack/setup-env.sh \
-    && spack --env . concretize
-#    && spack --env . install
+ && spack mirror add e4s_summit https://cache.e4s.io \
+ && spack buildcache keys --trust --install \
+ && spack --env . concretize \
+ && spack --env . install
 
 COPY entrypoint.sh /entrypoint.sh
 
