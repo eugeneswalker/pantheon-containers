@@ -1,11 +1,10 @@
 spack:
-  view: false
+  view: true
   concretization: together
   config:
     build_stage: $spack/build_stage
   specs:
   - ascent
-  - paraview
   packages:
     all:
       target: [power9le]
@@ -18,7 +17,7 @@ spack:
       buildable: true
     cmake:
       buildable: true
-      version: []
+      version: [3.18.2]
       target: []
       compiler: []
       providers: {}
@@ -34,13 +33,6 @@ spack:
       version: []
       target: []
       compiler: []
-      providers: {}
-    spectrum-mpi:
-      version: [10.3.1]
-      target: []
-      compiler: []
-      buildable: true
-      providers: {}
     mpich:
       version: [3.2.1]
       variants: ~wrapperrpath
@@ -54,10 +46,6 @@ spack:
       compiler: []
       buildable: true
       providers: {}
-    paraview:
-      version: [5.8.1]
-      buildable: true
-      variants: +python3
     ascent:
       variants: ^mpich+openmp+shared~adios~mfem+fortran+test~python+serial+mpi~cuda+vtkh
       version: []
