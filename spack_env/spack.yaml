@@ -24,7 +24,7 @@ spack:
       providers: {}
     conduit:
       buildable: true
-      version: [0.5.1]
+      version: [master]
     hdf5:
       buildable: true
       version: [1.8.21]
