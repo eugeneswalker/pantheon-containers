@@ -8,4 +8,4 @@ docker build \
   --build-arg DATE=${DATE} \
   --build-arg REPO=${REPO} \
   --build-arg COMMIT=${COMMIT} \
-  -t ecpe4s/rhel8-pantheon-base:${DATE} .
+  -t qwofford/ubi8-pantheon-base:summit_${DATE} .
