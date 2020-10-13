@@ -67,12 +67,27 @@ WORKDIR /home/pantheon
 
 # Install spack environment
 COPY spack_env/nobuild.yaml spack_env/spack.yaml /home/pantheon/
-RUN sed -i.bak -e '82,84d' /opt/spack/var/spack/repos/builtin/packages/ascent/package.py
+# Update cmake package.py, Kitware recommends newer cmake for paraview, and 3.14 no longer breaks ascent
+RUN sed -i.bak 's/cmake@3\.14.*"/cmake@3\.18\.2"/' /opt/spack/var/spack/repos/builtin/packages/ascent/package.py
+RUN sed -i.bak 's/cmake@3\.14.*"/cmake@3\.18\.2"/' /opt/spack/var/spack/repos/builtin/packages/vtk-h/package.py
 RUN . /opt/spack/share/spack/setup-env.sh \
  && spack mirror add e4s_summit https://cache.e4s.io \
  && spack buildcache keys --trust --install \
  && spack --env . concretize \
  && spack --env . install
+
+# Paraview spack package isn't working on Summit at the moment. Use superbuild instead.
+# Current cmake spack package isn't added to spack view. Force it.
+RUN export PATH=$PATH:/opt/spack/opt/spack/linux-rhel8-power9le/gcc-8.3.1/cmake-3.18.2-sfv33nosvyj7752deettpx57b3reevwo/bin \
+ && . /opt/spack/share/spack/setup-env.sh \
+ && git clone --recursive https://gitlab.kitware.com/paraview/paraview-superbuild.git \
+ && pushd paraview-superbuild \
+ && git fetch \
+ && git checkout v5.8.1 \
+ && git submodule update \
+ && popd && mkdir pv_build && pushd pv_build \
+ && cmake -DENABLE_osmesa=ON -Dmesa_USE_SWR=OFF -DENABLE_python3=ON ../paraview-superbuild \
+ && make -j && make install && popd
 
 COPY entrypoint.sh /entrypoint.sh
 
