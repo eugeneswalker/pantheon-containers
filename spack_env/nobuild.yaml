@@ -1,0 +1,5 @@
+packages:
+  zlib:
+    buildable: false
+  gcc:
+    buildable: false
