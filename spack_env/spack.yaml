@@ -12,7 +12,6 @@ spack:
         mpi: [mpich@3.3.2]
         blas: [openblas]
         lapack: [openblas]
-      compiler: [gcc@8.3.1]
       version: []
       buildable: true
     cmake:
