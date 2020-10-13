@@ -33,7 +33,8 @@ RUN yum update -y \
     pciutils \
     iputils \
     python3-devel \
-    procps \ 
+    procps \
+    libtool \ 
     && yum clean all \
     && rm -rf /var/cache/yum/*
 
@@ -66,6 +67,7 @@ WORKDIR /home/pantheon
 
 # Install spack environment
 COPY spack_env/nobuild.yaml spack_env/spack.yaml /home/pantheon/
+RUN sed -i.bak -e '82,84d' /opt/spack/var/spack/repos/builtin/packages/ascent/package.py
 RUN . /opt/spack/share/spack/setup-env.sh \
  && spack mirror add e4s_summit https://cache.e4s.io \
  && spack buildcache keys --trust --install \
