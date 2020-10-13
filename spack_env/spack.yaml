@@ -1,62 +1,37 @@
 spack:
-  view: false
+  view: true
   concretization: together
   config:
     build_stage: $spack/build_stage
   specs:
   - ascent
-  - paraview
   packages:
     all:
       target: [power9le]
       providers:
-        mpi: [spectrum-mpi@10.3.1]
+        mpi: [mpich@3.3.2]
         blas: [openblas]
         lapack: [openblas]
       version: []
       buildable: true
     cmake:
-      buildable: false
-      externals:
-      - spec: cmake@3.14.2
-        modules:
-        - cmake/3.14.2
-      version: []
+      buildable: true
+      version: [3.18.2]
       target: []
       compiler: []
       providers: {}
     conduit:
       buildable: true
-      version: [0.5.1]
+      version: [master]
     hdf5:
       buildable: true
       version: [1.8.21]
       variants: ~shared 
     openssl:
-      buildable: false
-      externals:
-      - spec: openssl@1.0.2
-        prefix: /usr
+      buildable: true
       version: []
       target: []
       compiler: []
-      providers: {}
-    spectrum-mpi:
-      version: [10.3.1]
-      buildable: false
-      externals:
-      - spec: spectrum-mpi@10.3.1
-        modules:
-        - spectrum-mpi/10.3.1.2-20200121
-      target: []
-      compiler: []
-      providers: {}
-    openmpi:
-      version: [4.0.3]
-      target: []
-      compiler: []
-      buildable: true
-      providers: {}
     mpich:
       version: [3.2.1]
       variants: ~wrapperrpath
@@ -66,20 +41,12 @@ spack:
       providers: {}
     cuda:
       version: [10.1.243]
-      externals:
-      - spec: cuda@10.1.243
-        modules:
-        - cuda/10.1.243
       target: []
       compiler: []
       buildable: true
       providers: {}
-    paraview:
-      version: [5.8.1]
-      buildable: true
-      variants: +python3
     ascent:
-      variants: +openmp+shared~adios~mfem+fortran+test~python+serial+mpi~cuda+vtkh
+      variants: ^mpich+openmp+shared~adios~mfem+fortran+test~python+serial+mpi~cuda+vtkh
       version: []
       target: []
       compiler: []
