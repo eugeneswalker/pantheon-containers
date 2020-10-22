@@ -87,6 +87,9 @@ RUN export PATH=$PATH:/opt/spack/opt/spack/linux-rhel8-power9le/gcc-8.3.1/cmake-
 
 COPY entrypoint.sh /entrypoint.sh
 
+# Copy specific workflow into pantheon home
+COPY submodules/2020-08_miniapp-example/ /home/pantheon/2020-08_miniapp-example/
+
 CMD /bin/bash
 ENTRYPOINT ["/entrypoint.sh"]
 
