@@ -8,4 +8,4 @@ docker build \
   --build-arg DATE=${DATE} \
   --build-arg REPO=${REPO} \
   --build-arg COMMIT=${COMMIT} \
-  -t qwofford/ubi8-pantheon-base:summit_${DATE} .
+  -t qwofford/ubi8-warpx:summit_${DATE} .

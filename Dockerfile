@@ -51,9 +51,9 @@ RUN git clone https://github.com/spack/spack.git /opt/spack \
  && pushd /opt/spack && git checkout 49512e2 && popd 
 
 
-#RUN wget http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux.run \
-# && sh cuda_10.2.89_440.33.01_linux.run --silent --toolkit --override \
-# && rm -f cuda_10.2.89_440.33.01_linux.run
+RUN wget https://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux_ppc64le.run \
+ && sh cuda_10.2.89_440.33.01_linux_ppc64le.run --silent --toolkit --override \
+ && rm -f cuda_10.2.89_440.33.01_linux_ppc64le.run
 
 # Create a pantheon home
 RUN mkdir /home/pantheon
