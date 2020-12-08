@@ -2,7 +2,7 @@ ARG DATE
 ARG REPO
 ARG COMMIT
 
-FROM registry.access.redhat.com/ubi8/ubi:8.2 AS e4s_base
+FROM qwofford/nvidia-cuda-devel:summit_2020-11-25 AS e4s_base
 
 ARG DATE
 ARG REPO
@@ -51,9 +51,9 @@ RUN git clone https://github.com/spack/spack.git /opt/spack \
  && pushd /opt/spack && git checkout 49512e2 && popd 
 
 
-RUN wget https://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux_ppc64le.run \
- && sh cuda_10.2.89_440.33.01_linux_ppc64le.run --silent --toolkit --override \
- && rm -f cuda_10.2.89_440.33.01_linux_ppc64le.run
+#RUN wget https://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux_ppc64le.run \
+# && sh cuda_10.2.89_440.33.01_linux_ppc64le.run --silent --toolkit --override \
+# && rm -f cuda_10.2.89_440.33.01_linux_ppc64le.run
 
 # Create a pantheon home
 RUN mkdir /home/pantheon
@@ -89,6 +89,16 @@ COPY entrypoint.sh /entrypoint.sh
 
 # Copy specific workflow into pantheon home
 COPY submodules/2020-08_miniapp-example/ /home/pantheon/2020-08_miniapp-example/
+
+# Build the target application from source
+RUN git clone https://github.com/ECP-WarpX/WarpX.git warpx \
+ && pushd warpx \
+ && git checkout ebde54faa8bcae2f1b37b81270a8d0a64bf58a98 \
+ && popd \
+ && git clone --branch QED https://bitbucket.org/berkeleylab/picsar.git \
+ && git clone --branch development https://github.com/AMReX-Codes/amrex.git \
+ && pushd warpx \
+ && make -j 16 USE_GPU=TRUE && popd
 
 CMD /bin/bash
 ENTRYPOINT ["/entrypoint.sh"]
